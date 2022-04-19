@@ -5,6 +5,7 @@ import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-fireb
 import auth from '../../../firebase.init'
 import SocialLogin from '../SocialLogin/SocialLogin';
 import { async } from '@firebase/util';
+import PageTitle from '../../../shared/PageTitle/PageTitle';
 const Register = () => {
     const [agree,setAgree]=useState(false)
     const [
@@ -16,7 +17,7 @@ const Register = () => {
     const handleLogin =()=>{
         navigate('/login')
     }
-    const handleRegister = async event =>{
+    const handleRegister = async (event) =>{
         event.preventDefault();
         const name= event.target.name.value;
         const email = event.target.email.value;
@@ -27,6 +28,7 @@ const Register = () => {
     }
     return (
         <div className='register-form'>
+            <PageTitle title='register'></PageTitle>
             <h2 className='register-title'>Please Register</h2>
             <form onSubmit={handleRegister}>
                 <input type="text" name="name" id="" placeholder='Your Name' />

@@ -8,6 +8,7 @@ import SocialLogin from '../SocialLogin/SocialLogin';
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import Snipper from '../../../shared/Snipper/Snipper';
+import PageTitle from '../../../shared/PageTitle/PageTitle';
 
 const Login = () => {
     const emailRef = useRef('')
@@ -48,6 +49,7 @@ const Login = () => {
     }
     return (
         <div className='container w-50 mt-3'>
+            <PageTitle title='Login'></PageTitle>
             <h2 className='text-primary text-center'>Please login</h2>
             <Form onSubmit={handleFormSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">

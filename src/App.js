@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import './App.css';
 import About from './pages/About/About';
 import AddService from './pages/AddService/AddService';
@@ -7,6 +8,7 @@ import Home from './pages/Home/Home/Home';
 import Login from './pages/Login/Login/Login';
 import Register from './pages/Login/Register/Register';
 import ManageService from './pages/ManageService/ManageService';
+import Orders from './pages/Orders/Orders';
 import RequireAuth from './pages/RequireAuth/RequireAuth';
 import ServiceDetail from './pages/ServiceDetail/ServiceDetail';
 import Footer from './shared/Footer/Footer';
@@ -24,12 +26,14 @@ function App() {
       <Route path='/about' element={<About></About>}></Route>
       <Route path='/login' element={<Login></Login>}></Route>
       <Route path='/register' element={<Register></Register>}></Route>
-      <Route path='/checkout' element={<RequireAuth><CheckOut></CheckOut></RequireAuth>}></Route>
+      <Route path='/checkout/:serviceId' element={<RequireAuth><CheckOut></CheckOut></RequireAuth>}></Route>
       <Route path='/addservice' element={<RequireAuth><AddService></AddService></RequireAuth>}></Route>
       <Route path='/manageservice' element={<RequireAuth><ManageService></ManageService></RequireAuth>}></Route>
+      <Route path='/orders' element={<RequireAuth><Orders></Orders></RequireAuth>}></Route>
       <Route path='*' element={<NotFound></NotFound>}></Route>
     </Routes>
     <Footer></Footer>
+    <ToastContainer></ToastContainer>
     </div>
   );
 }

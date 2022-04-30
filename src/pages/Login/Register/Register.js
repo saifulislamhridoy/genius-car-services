@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Register.css'
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase.init'
@@ -8,6 +8,8 @@ import { async } from '@firebase/util';
 import PageTitle from '../../../shared/PageTitle/PageTitle';
 const Register = () => {
     const [agree,setAgree]=useState(false)
+    const location = useLocation()
+    const from = location.state?.from?.pathname || "/"
     const [
         createUserWithEmailAndPassword,
         user,loading,error
@@ -17,6 +19,9 @@ const Register = () => {
     const handleLogin =()=>{
         navigate('/login')
     }
+    if(user){
+        navigate(from,{replace:true})
+    }
     const handleRegister = async (event) =>{
         event.preventDefault();
         const name= event.target.name.value;
@@ -24,7 +29,7 @@ const Register = () => {
         const password =event.target.password.value;
       await  createUserWithEmailAndPassword(email,password)
         await updateProfile({ displayName:name });
-          navigate('/home')
+        navigate(from,{replace:true})
     }
     return (
         <div className='register-form'>

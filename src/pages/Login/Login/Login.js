@@ -1,4 +1,5 @@
 import { async } from '@firebase/util';
+import axios from 'axios';
 import React, { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -16,23 +17,30 @@ const Login = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const from = location.state?.from?.pathname || "/"
-    const [signInWithEmailAndPassword, user,error] = useSignInWithEmailAndPassword(auth);
+    const [ signInWithEmailAndPassword,
+        user,
+        loading,
+        error,] = useSignInWithEmailAndPassword(auth);
     const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
     if (user) {
-        navigate(from, { replace: true })
+        
     }
-    let elementError;
-   if(error){
-    elementError = <p>Error: {error?.message}</p>
-   }
+//     let elementError;
+//    if(error){
+//     elementError = <p>Error: {error?.message}</p>
+//    }
    if(sending){
        return <Snipper></Snipper>
    }
-    const handleFormSubmit = event => {
+    const handleFormSubmit = async event => {
         event.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-        signInWithEmailAndPassword(email, password)
+       await signInWithEmailAndPassword(email, password)
+       const {data}=await axios.post('http://localhost:5000/login',{email})
+      localStorage.setItem('accessToken',data.accessToken)
+       navigate(from, { replace: true })
+
     }
     const handleResetPass = async () =>{
         const email = emailRef.current.value;
@@ -63,7 +71,7 @@ const Login = () => {
                     <Form.Control ref={passwordRef} type="password" placeholder="Password" required />
                 </Form.Group>
                 {
-                    elementError
+                    error && <p className='text-danger'>Error: {error?.message}</p>
                 }
                   <p>New to Genius car? <Link to='/register' onClick={handleRegister} className='text-primary text-decoration-none'>Register Now</Link></p>
                 <p>Forget Password? <Link to='' onClick={handleResetPass} className=' text-primary text-decoration-none'>Reset password</Link></p>
